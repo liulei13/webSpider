@@ -28,12 +28,34 @@ while url:
     for eachName in names:
         print(eachName)
     description=re.findall('<meta name="description" content="(.*?)>',html.text,re.S)
-    print(description[0])
+    #print(description[0])
     resume=re.findall('<div class="para">(.*?)</div>',html.text,re.S)
     for eachResume in resume:
-        print(eachResume.strip('<(.*?)>'))
+        if re.match('\d?(.*?)',eachResume):
+            process=re.sub('<(.*?)>','',eachResume)
+            process=re.sub('\s(.*?)','',process,re.S)
+            process=re.sub('<(.*?)','',process,re.S)
+            process=re.sub('(.*?)>','',process,re.S)
+            process=re.sub('[a-z](.*?)','',process,re.S)
 
-
+            process=re.sub('...&;','',process,re.S)
+            print(process)
+    print('目录：')
+    #Directory1=re.findall('<a href="#1" class="text">(.*?)</a>',html.text,re.S)
+    #print('1 '+Directory1[0])
+    #Directory2=re.findall('<a href="#2" class="text">(.*?)</a>',html.text,re.S)
+    #print('2 '+Directory2[0])
+    #Directory3=re.findall('<a href="#3" class="text">(.*?)</a>',html.text,re.S)
+    #if Directory3:
+       # print('3 '+Directory3[0])
+    for i in range(1,5):
+         Directory=re.findall('<a href="#'+str(i)+'" class="text">(.*?)</a>',html.text,re.S)
+         if Directory:
+             print(str(i)+' '+Directory[0])
+             for j in range(1,10):
+                 Directory2=re.findall('<a href="#'+str(i)+'_'+str(j)+'" class="text">(.*?)</a>',html.text,re.S)
+                 if Directory2:
+                     print(str(i)+'.'+str(j)+' '+Directory2[0])
     print('URL:'+url)
     url=file_url.readline()
     i=i+1
